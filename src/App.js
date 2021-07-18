@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import './App.css';
 import { Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
@@ -15,17 +15,21 @@ import SearchPage from './pages/blogs/SearchPage';
 
 function App() {
   return (
-    <Route path="/" component={HomePage} />
-    <Route path="/login" component={LoginPage} />
-    <Route path="/" component={JoinPage} />
-    <Route path="/" component={LogoutPage} />
-    <Route path="/" component={UserEditPage} />
-    <Route path="/" component={UserDeletePage} />
-    <Route path="/" component={WritePage} />
-    <Route path="/" component={EditPage} />
-    <Route path="/" component={SearchPage} />
-    <Route path="/" component={DeletePage} />
-    
+    <>
+      <Route path='/' component={HomePage} exact/>
+
+      <Route path="/login" component={LoginPage} />
+      <Route path="/join" component={JoinPage} />
+      <Route path="/logout" component={LogoutPage} />
+      <Route path="/@:id/edit" component={UserEditPage} exact/>
+      <Route path="/@:id/delete" component={UserDeletePage} exact/>
+
+      {/*블로그 문서 */}
+      <Route path="/write" component={WritePage} />
+      <Route path="/edit" component={EditPage} />
+      <Route path="/search" component={SearchPage} />
+      <Route path="/delete" component={DeletePage} />
+    </>
 
   );
 }
