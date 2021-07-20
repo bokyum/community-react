@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { handleJoin } from '../../api/auth/AuthApi';
 
 
 const AuthFormBlock =  styled.div`
@@ -45,59 +46,78 @@ const Footer = styled.div`
     font-weight: bold;
 `
 
+
+
+
 const JoinForm = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [checkPassword, setCheckPassword] = useState('');
+    const [inputs, setInputs] = useState({
+        username: '',
+        password: '',
+        checkPassword: '',
+     
+    })
+    const [error, setError] = useState(false);
 
-    const onChangeUsername = e => {
-        setUsername(e.target.value);
+    const onChange = (e) => {
+        const {value, name} = e.target;
+        setInputs({
+            ...inputs,
+            [name]: value
+        })
+    }
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(e.target.password.value !== e.target.checkPassword.value) {
+            setError(true);
+            return;
+        }
+        handleJoin({
+            username: e.target.username.value,
+            password: e.target.password.value,
+        })
     }
 
-    const onChangePassword = e => {
-        setPassword(e.target.value);
-    }
-    const onChangeCheckPassword = e => {
-        setCheckPassword(e.target.value);
-    }
-
+    
     return (
         <AuthFormBlock>
             <h3>회원가입</h3>
-            <form>   
+            <form onSubmit={handleSubmit}>   
                 <StyledInput 
                 autoComplete="username"
-                id="username"
+                name="username"
                 placeholder="아이디"
-                onChange={onChangeUsername}
-               />
+                onChange={onChange}
+            />
                 <StyledInput
                 autoComplete="password"
-                id="username"
+                name="password"
                 placeholder="비밀번호"
                 type="password"
-                onChange={onChangePassword}
+                onChange={onChange}
                 />
-             
+
                 <StyledInput
                 autoComplete="checkPassword"
-                id="password"
+                name="checkPassword"
                 placeholder="비밀번호 확인"
                 type="password"
-                onChange={onChangeCheckPassword}
+                onChange={onChange}
                 />
-                
+                { error ? 
+                    <div>비밀번호가 일치하지 않습니다.</div> : null
+                }
+                <Button>회원가입
+                    </Button>
 
-                <Button value="로그인" />
                 </form>
                 <Footer>
-             
                     <Link to="login">로그인</Link>
-                
                 </Footer>
             
         </AuthFormBlock>
-    );
+    )
+   
 
 }
 

@@ -1,7 +1,8 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React  from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { handleLogin } from '../../api/auth/AuthApi';
+
 
 
 const AuthFormBlock =  styled.div`
@@ -48,61 +49,47 @@ const Footer = styled.div`
 
 
 
-const LoginForm = () => {
+class LoginForm extends React.Component{
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    handleSubmit = (e) => {
+        e.preventDefault();
 
-    const onChangeUsername = e => {
-        setUsername(e.target.value);
-    }
-
-    const onChangePassword = e => {
-        setPassword(e.target.value);
-    }
-
-    const callApi = () => {
-        axios.post('http://localhost:8080/api/v1/login', {
-            "username": username.value,
-            "password": password.value
-        }
-        ).then((res) => {
-            console.log(res);
-        }).catch(error => {
-            console.log(error);
-            throw new Error(error);
-        });
+        handleLogin({
+            username: e.target.username.value,
+            password: e.target.password.value,
+        })
     }
     
-    return (
-        <AuthFormBlock>
-            <h3>로그인</h3>
-            <form onSubmit={callApi}>   
-                <StyledInput 
-                autoComplete="username"
-                name="username"
-                placeholder="아이디"
-                onChange={onChangeUsername}
-            
-               />
-                <StyledInput
-                autoComplete="password"
-                name="password"
-                placeholder="비밀번호"
-                type="password"
-                onChange={onChangePassword}
-            
+    render () {
+        return (
+            <AuthFormBlock>
+                <h3>로그인</h3>
+                <form onSubmit={this.handleSubmit}>   
+                    <StyledInput 
+                    autoComplete="username"
+                    name="username"
+                    placeholder="아이디"
+                
+                
                 />
-                <Button>로그인
-                    </Button>
-
-                </form>
-                <Footer>
-                    <Link to="join">회원가입</Link>
-                </Footer>
+                    <StyledInput
+                    autoComplete="password"
+                    name="password"
+                    placeholder="비밀번호"
+                    type="password"
             
-        </AuthFormBlock>
-    );
+                    />
+                    <Button>로그인
+                        </Button>
+
+                    </form>
+                    <Footer>
+                        <Link to="join">회원가입</Link>
+                    </Footer>
+                
+            </AuthFormBlock>
+        )
+    }
 
 }
 
