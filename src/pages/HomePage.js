@@ -1,8 +1,12 @@
 import React from 'react';
+import HomeForm from '../templates/HomeForm';
+import HomeTemplate from '../templates/HomeTemplate';
 
 const HomePage = () => {
     return (
-    <div>HomePage</div>
+    <HomeTemplate>
+        <HomeForm />
+    </HomeTemplate>
     );
 }
 

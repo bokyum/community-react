@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { handleJoin } from '../../api/auth/AuthApi';
@@ -72,10 +72,13 @@ const JoinForm = () => {
             setError(true);
             return;
         }
+        else {
+        setError(false);
         handleJoin({
             username: e.target.username.value,
             password: e.target.password.value,
         })
+        }
     }
 
     
@@ -86,7 +89,7 @@ const JoinForm = () => {
                 <StyledInput 
                 autoComplete="username"
                 name="username"
-                placeholder="아이디"
+                placeholder="이메일"
                 onChange={onChange}
             />
                 <StyledInput

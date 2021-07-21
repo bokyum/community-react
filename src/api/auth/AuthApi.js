@@ -1,7 +1,10 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import authHandle from "../../modules/auth";
+import { login } from "../../modules/auth";
 
-export const handleJoin = (mem_info) => {
-    axios({
+export const handleJoin = async (mem_info) => {
+    const {data} = await axios({
         method: 'post',
         url: 'http://localhost:8080/api/v1/join', 
         headers: {
@@ -9,21 +12,13 @@ export const handleJoin = (mem_info) => {
         },
         data: JSON.stringify(mem_info)
     })
-    .then(function (response) {
-        if(response.data.error === null) {
-            alert("회원가입이 정상적으로 되었습니다");
-           window.location.href='http://localhost:3000/';
-        }
-        else {
-            alert(response.data.error);
-        }
-
-    });
+    return data;
 }
 
 
-export const handleLogin = (mem_info) => {
-    axios({
+export const handleLogin = async (mem_info) => {
+
+    const {data} = await axios({
         method: 'post',
         url: 'http://localhost:8080/api/v1/login', 
         headers: {
@@ -31,20 +26,5 @@ export const handleLogin = (mem_info) => {
         },
         data: JSON.stringify(mem_info)
     })
-    .then(function (response) {
-        console.log(response)
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-        if(response.data.error === null) {
-            alert("로그인이 정상적으로 되었습니다");
-           window.location.href='http://localhost:3000/';
-        }
-        else {
-            alert(response.data.error);
-        }
-
-    })
+    return data;
 }
