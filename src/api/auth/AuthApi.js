@@ -1,24 +1,38 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import authHandle from "../../modules/auth";
-import { login } from "../../modules/auth";
 
-export const handleJoin = async (mem_info) => {
-    const {data} = await axios({
+
+
+export const authHeader = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if(user && user.accessToken) {
+        return {Authorization: user.type + user.token}
+    }
+}
+
+export const handleJoin = (mem_info) => {
+    axios({
         method: 'post',
         url: 'http://localhost:8080/api/v1/join', 
         headers: {
             'Content-Type': 'application/json; charset=utf-8'	// 헤더에서 본문 타입 설정
         },
         data: JSON.stringify(mem_info)
+    }).then(response => {
+        console.log(response.data);
+        if(response.data.error !== null) {
+            alert(response.data.error);
+            return;
+        }
+        alert("회원가입에 성공하였습니다.")
+        window.location.href = "/";
     })
-    return data;
 }
 
 
-export const handleLogin = async (mem_info) => {
+export const handleLogin = (mem_info) => {
 
-    const {data} = await axios({
+    axios({
         method: 'post',
         url: 'http://localhost:8080/api/v1/login', 
         headers: {
@@ -26,5 +40,24 @@ export const handleLogin = async (mem_info) => {
         },
         data: JSON.stringify(mem_info)
     })
-    return data;
+    .then(response => {
+        console.log(response.data);
+        if(response.data.error !== null) {
+            alert(response.data.error);
+            return;
+        }
+        
+        const {accessToken} = response.data.data.token;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        localStorage.setItem("user", JSON.stringify(response.data));
+
+        console.log(response);
+        alert("로그인에 성공하였습니다.")
+        window.location.href = "/";
+        
+    })
+}
+
+export const handleLogout = () => {
+    localStorage.removeItem("user");
 }

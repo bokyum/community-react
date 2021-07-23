@@ -1,30 +1,36 @@
 import { createAction } from "redux-actions";
 
 const SET_LOGIN = 'auth/SET_LOGIN';
+const SET_JOIN = 'auth/SET_JOIN';
 const SET_LOGOUT = 'auth/SET_LOGOUT';
 
-export const setLogin = id => ({type: SET_LOGIN, id});
-export const setLogout = () => ({type: SET_LOGOUT});
 
-const initialState = {
-    id: -1,
-    logged: false,
-};
+const user = JSON.parse(localStorage.getItem("user"));
+
+const initialState = user
+  ? { user }
+  : { isLoggedIn: false, user: null };
 
 export default function authManage(state=initialState, action) {
-    switch (action.type) {
+    const {type, payload} = action;
+    switch (type) {
         case SET_LOGIN:
             return {
                 ...state,
-                id: action.id,
-                logged: true,
-            }
+                isLoggedIn: true,
+                user: payload.user,
+              };
+        case SET_JOIN:
+            return {
+                ...state,
+                isLoggedIn: false,
+              };
         case SET_LOGOUT:
             return {
                 ...state,
-                id: -1,
-                logged: false,
-            }    
+                isLoggedIn: false,
+                user: null,
+              };
         default:
             return state;    
     }

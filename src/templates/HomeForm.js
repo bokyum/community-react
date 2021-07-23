@@ -48,8 +48,11 @@ const Button = styled.button`
 
 `;
 
+
+
 const HomeForm = () => {
     const [text, setText] = useState('');
+    const user = JSON.parse(localStorage.getItem("user"));
     
     const onChange = (e) => {
         setText(e.target.value);
@@ -71,8 +74,16 @@ const HomeForm = () => {
             </StyledInput>
             <Button>검색</Button>
         </form>
+        {!user ?  
+        (
         <h3><Link to="/login">Login </Link>
-        <Link to="/join">Join </Link></h3>
+        <Link to="/join">Join </Link></h3>)
+        : (
+            <h3><Link to={`/@${user.data.id}`}>{user.data.username} </Link>
+            <Link to="/logout">Logout </Link></h3>
+            )
+        }
+        
         
         </TopBlock>
     )

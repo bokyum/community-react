@@ -52,6 +52,7 @@ const Footer = styled.div`
 const JoinForm = () => {
     const [inputs, setInputs] = useState({
         username: '',
+        email: '',
         password: '',
         checkPassword: '',
      
@@ -76,6 +77,7 @@ const JoinForm = () => {
         setError(false);
         handleJoin({
             username: e.target.username.value,
+            email: e.target.email.value,
             password: e.target.password.value,
         })
         }
@@ -89,9 +91,15 @@ const JoinForm = () => {
                 <StyledInput 
                 autoComplete="username"
                 name="username"
-                placeholder="이메일"
+                placeholder="아이디"
                 onChange={onChange}
-            />
+                />
+                <StyledInput 
+                    autoComplete="email"
+                    name="email"
+                    placeholder="이메일"
+                    onChange={onChange}
+                />
                 <StyledInput
                 autoComplete="password"
                 name="password"

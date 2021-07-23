@@ -52,7 +52,7 @@ const Footer = styled.div`
 
 
 const LoginForm = () => {
-    const dispatch = useDispatch();
+
     const [inputs, setInputs] = useState({
         username: '',
         password: '',
@@ -69,25 +69,14 @@ const LoginForm = () => {
         })
     }
     
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
        
         setError(false);
-        const log = await handleLogin({
+        handleLogin({
             username: e.target.username.value,
             password: e.target.password.value,
         })
-       
-        if(log.data === null) {
-            alert(log.error);
-            return;
-        }
-        else {
-            console.log(log.data.id);
-           dispatch(setLogin(log.data.id));
-           alert("로그인에 성공하였습니다.")
-           window.location.href = "/";
-        }
        
     }
    
@@ -98,7 +87,7 @@ const LoginForm = () => {
                 <StyledInput 
                 autoComplete="username"
                 name="username"
-                placeholder="이메일"
+                placeholder="아이디"
                 onChange={onChange}
             
             />
